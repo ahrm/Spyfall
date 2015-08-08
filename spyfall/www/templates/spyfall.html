@@ -1,0 +1,72 @@
+<ion-nav-view>
+    <div class="bar bar-header">
+      <button class="button icon ion-plus" ng-click="showAddPlayerModal();"></button>
+      <h1 class="title">Spyfall</h1>
+      <button class="button" ng-click="showPlacesModal();">Show Places</button>
+    </div>
+</ion-nav-view>
+<ion-view>
+    
+    <ion-content class="has-header">
+        
+        
+        <button class="button button-full button-positive" ng-click="assignPlayerRoles();">Assign New Roles</button>
+        
+        
+        <ion-list>
+            <ion-item  ng-repeat="player in players" ng-click="showPlayerRole(player);">
+                {{player.name}} <button ng-click="removePlayer(player);" style="float: right;" class="button button-small"><i class="icon ion-close assertive"></i></button>
+            </ion-item>
+        </ion-list>
+        
+    </ion-content>
+</ion-view>
+
+<script id="view-role-modal.html" type="text/ng-template">
+    <ion-modal-view>
+        <ion-content>
+            <label class="item item-input">
+                <input type="password" placeholder="password" ng-model="$root.enteredPassword" ng-if="currentSelectedPlayer.password"/>
+            </label>
+            <div>
+                <div ng-if="currentSelectedPlayer.role.name != 'spy'">
+                    <span ng-if="(!currentSelectedPlayer.password) || ($root.enteredPassword == currentSelectedPlayer.password)">{{currentSelectedPlayer.role.name}} in {{currentPlace.name}}</span>
+                </div>
+                <div ng-if="currentSelectedPlayer.role.name == 'spy'">
+                    <span ng-if="(!currentSelectedPlayer.password) || ($root.enteredPassword == currentSelectedPlayer.password)">You are the spy!</span>
+                </div>
+            </div>
+            <div class="padding">
+                <button class="button button-full button-positive" ng-click="closeViewRoleModal();">OK</button>
+            </div>
+        </ion-content>
+    </ion-modal-view>
+</script>
+
+<script id="view-places-modal.html" type="text/ng-template">
+    <ion-modal-view>
+        <ion-content>
+            <ion-list>
+                <ion-item ng-repeat="place in allPlaces">
+                    {{place.name}}
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-modal-view>
+</script>
+
+<script id="add-player-modal.html" type="text/ng-template">
+    <ion-modal-view>
+        <ion-content>
+            <label class="item item-input">
+                <input type="text" ng-model="newPlayer.name" placeholder="Player Name" />
+            </label>
+            <label class="item item-input">
+            <input type="password" ng-model="newPlayer.password" placeholder="Password"/>
+            </label>
+            <div class="padding">
+                <button class="button button-full button-positive" ng-click="addPlayer(newPlayer.name, newPlayer.password);">Add Player</button>
+            </div>
+        </ion-content>
+    </ion-modal-view>
+</script>
